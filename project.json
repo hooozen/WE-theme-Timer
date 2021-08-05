@@ -1,11 +1,19 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "倒计时壁纸\n* 默认为考研倒计时，自动调整年份（以当前年份为基准）\n* 励志古诗词文句，激发力量\n* 精选风景壁纸（来自 bing 和 微软）\n* 年末彩蛋\n* 如有问题和建议请留言",
+	"description" : "倒计时壁纸\r\n* 默认为考研倒计时，自动调整年份（以当前年份为基准）\r\n* 支持简单的自定义（请查看更新说明）\r\n* 励志古诗词文句，激发力量\r\n* 精选风景壁纸（来自 bing 和 微软）\r\n* 年末彩蛋\r\n* 如有问题和建议可留言或邮箱 hozen@88.com 联系我",
 	"file" : "index.html",
 	"general" : 
 	{
 		"properties" : 
 		{
+			"addmotto" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "add-motto",
+				"type" : "textinput",
+				"value" : ""
+			},
 			"deadline" : 
 			{
 				"index" : 1,
@@ -28,6 +36,14 @@
 				"text" : "title",
 				"type" : "textinput",
 				"value" : ""
+			},
+			"usingdefaultmottos" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "using-default-mottos",
+				"type" : "bool",
+				"value" : true
 			}
 		}
 	},
