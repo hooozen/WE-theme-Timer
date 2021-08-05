@@ -1,0 +1,122 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  text-align: justify;
+}
+#outer {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.bg {
+  background: 0 0 url(./assets/images/bg-1.jpg);
+  background-size: cover;
+  position: absolute;
+  transition: background 1s ease-in;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.bg::after {
+  bottom: 0;
+  content: '';
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.main {
+  color: #fff;
+  display: flex;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: column;
+  text-shadow: 5px 1px 10px rgba(0, 0, 0, 0.8);
+}
+
+.title {
+  font-size: 20px;
+  text-align: center;
+}
+.title__target {
+  display: inline-block;
+  padding: 0 10px 4px 10px;
+  border-bottom: 1px solid #fff;
+}
+
+.body--end {
+  display: none;
+}
+
+.message {
+  font-size: 30px;
+  line-height: 40px;
+  padding-top: 15px;
+}
+.signature {
+  padding-top: 10px;
+  font-size: 20px;
+  text-align: right;
+}
+
+.message:first-letter {
+  font:64px arial,simsun,sans-serif;
+  font-weight:bolder;
+  float:left;
+}
+
+.body {
+  display: block;
+}
+
+.timer {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-shadow: 5px 1px 10px rgba(27, 13, 13, 0.8);
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.motto {
+  color: #ddd;
+  text-align: center;
+  height: 200px;
+  font-size: 40px;
+}
+
+.number {
+  text-align: center;
+  line-height: 80px;
+}
+.number.days {
+  flex: 0 0 110px;
+  font-size: 60px;
+}
+.number.hours{
+  flex: 0 0 60px;
+  font-size: 40px;
+}
+.number.minutes {
+  flex: 0 0 50px;
+  font-size: 30px;
+}
+.number.seconds {
+  flex: 0 0 40px;
+  font-size: 20px;
+}
+.number.milliseconds {
+  flex: 0 0 30px;
+  font-size: 16px;
+}
+

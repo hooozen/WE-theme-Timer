@@ -1,0 +1,42 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "倒计时壁纸\n* 默认为考研倒计时，自动调整年份（以当前年份为基准）\n* 励志古诗词文句，激发力量\n* 精选风景壁纸（来自 bing 和 微软）\n* 年末彩蛋\n* 如有问题和建议请留言",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"deadline" : 
+			{
+				"index" : 1,
+				"order" : 101,
+				"text" : "deadline",
+				"type" : "textinput",
+				"value" : ""
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0 0 0"
+			},
+			"title" : 
+			{
+				"index" : 0,
+				"order" : 100,
+				"text" : "title",
+				"type" : "textinput",
+				"value" : ""
+			}
+		}
+	},
+	"preview" : "preview.jpg",
+	"tags" : [ "Landscape" ],
+	"title" : "倒计时 —— 励志语句",
+	"type" : "web",
+	"version" : 3,
+	"visibility" : "public",
+	"workshopid" : "2222111958",
+	"workshopurl" : "steam://url/CommunityFilePage/2222111958"
+}
