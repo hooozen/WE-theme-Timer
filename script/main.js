@@ -26,7 +26,6 @@ window.wallpaperPropertyListener = {
   userDirectoryFilesAddedOrChanged: function (propertyName, changedFiles) {
     // propertyName is the name of the property that triggered the event.
     // changedFiles contains all added (or modified) file paths
-    console.log(propertyName, changedFiles)
     GOLOBAL.batchImportImages(changedFiles)
   },
   userDirectoryFilesRemoved: function (propertyName, removedFiles) {
@@ -37,14 +36,17 @@ window.wallpaperPropertyListener = {
 
   applyUserProperties: function (properties) {
     if (properties.title) {
-      // Do something with yourproperty
       if (properties.title.value)
         $('#targetYear').innerText = properties.title.value;
     }
     if (properties.deadline) {
       if (properties.deadline.value)
         window.GOLOBAL.deadline.date = new Date(properties.deadline.value)
-      // Do something with anotherproperty
+    }
+    if (properties.maskTransparency) {
+      if (properties.maskTransparency.value) {
+        GOLOBAL.setMaskTransparency(properties.maskTransparency.value)
+      }
     }
 
     if (properties.customMottoEnable) {
@@ -93,14 +95,13 @@ window.wallpaperPropertyListener = {
       parentEl.appendChild(scriptEl)
     }
 
-    // Add more properties here
-    refresh()
+    // refresh()
   },
 
 };
 
 function main() {
-  console.log('wallparpe reload')
+  console.info('wallparpe reload')
 
   window.GOLOBAL = {
     motto: $('#motto'),
@@ -123,6 +124,10 @@ function main() {
     cyclicImages: [],
 
     refresh: refresh,
+
+    setMaskTransparency(value) {
+      console.debug(value)
+    },
 
     addCustomMotto(motto, no) {
       motto = motto.trim()
@@ -167,11 +172,13 @@ function main() {
       }
 
       this.cyclicMottos = mottos.filter(item => item != '')
+      this.refresh(true, false)
     },
 
     setCyclicImages() {
       if (this.externalImages.length) this.cyclicImages = this.externalImages
       else this.cyclicImages = this.defaultImages
+      this.refresh(false, true)
     }
   };
 
@@ -185,7 +192,6 @@ function main() {
   var targetYear = $('#targetYear');
   var targetYearEnd = $('#targetYearEnd');
 
-  // registeServiceWorker();
   targetYear.innerText = GOLOBAL.deadline.targetYear; // 设置年份
   if (GOLOBAL.deadline.expired) {
     body.style.display = 'none';
@@ -199,25 +205,21 @@ function main() {
   }
 }
 
-function registeServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(reg => {
-      console.info('service worker registed');
-    });
-  } else {
-    console.warn('serviceWorker is not supported');
-  }
+function refresh(motto = false, bg = false) {
+  window.requestAnimationFrame(freshNumbers.bind(window, undefined, {
+    motto,
+    bg
+  }));
 }
 
-function refresh() {
-  window.requestAnimationFrame(freshNumbers.bind(window, undefined, true));
-}
-
-function freshNumbers(_, rightnow = false) {
+function freshNumbers(_, rightnow = {
+  motto: false,
+  bg: false
+}) {
   var numbers = getTimerNumbers(GOLOBAL.deadline.date);
   rendserNumber(numbers);
-  switchMotto(rightnow);
-  switchBg(rightnow);
+  switchMotto(rightnow.motto);
+  switchBg(rightnow.bg);
   window.requestAnimationFrame(freshNumbers);
 }
 
@@ -280,10 +282,9 @@ function switchBg(rightnow) {
   var minutes = (new Date()).getMinutes();
   if (!rightnow && minutes != GOLOBAL.switchBgTime) return;
   images = GOLOBAL.cyclicImages
-  console.log(images)
   GOLOBAL.bg.style.backgroundImage = `url(${images[Math.floor(images.length * Math.random())]})`
   GOLOBAL.switchBgTime = Math.floor(Math.random() * 60);
-  console.log('switchBgTime', GOLOBAL.switchBgTime)
+  console.info('switchBgTime', GOLOBAL.switchBgTime)
 }
 
 
