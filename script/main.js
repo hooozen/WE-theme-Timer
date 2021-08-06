@@ -16,11 +16,26 @@ const defaultMottos = [
   '欲渡黄河冰塞川，将登太行雪满山', '自信人生二百年，会当水击三千里', '业精于勤荒于嬉，行成于思毁于随'
 ]
 
+const defaultImages = Array.from({
+  length: 33
+}, (item, index) => `style/assets/images/bg-${index}.jpg`)
+
 
 
 window.wallpaperPropertyListener = {
+  userDirectoryFilesAddedOrChanged: function (propertyName, changedFiles) {
+    // propertyName is the name of the property that triggered the event.
+    // changedFiles contains all added (or modified) file paths
+    console.log(propertyName, changedFiles)
+    GOLOBAL.batchImportImages(changedFiles)
+  },
+  userDirectoryFilesRemoved: function (propertyName, removedFiles) {
+    // propertyName is the name of the property that triggered the event.
+    // removedFiles contains all removed file paths
+    GOLOBAL.batchImportImages([])
+  },
+
   applyUserProperties: function (properties) {
-    console.log(properties)
     if (properties.title) {
       // Do something with yourproperty
       if (properties.title.value)
@@ -34,11 +49,11 @@ window.wallpaperPropertyListener = {
 
     if (properties.customMottoEnable) {
       GOLOBAL.customMottoEnable = properties.customMottoEnable.value
-      GOLOBAL.setVisibleMottos()
+      GOLOBAL.setCyclicMottos()
     }
     if (properties.usingDefaultMottos) {
       window.GOLOBAL.usingDefaultMottos = properties.usingDefaultMottos.value
-      GOLOBAL.setVisibleMottos()
+      GOLOBAL.setCyclicMottos()
     }
 
     if (properties.customMotto1) {
@@ -81,10 +96,11 @@ window.wallpaperPropertyListener = {
     // Add more properties here
     refresh()
   },
+
 };
 
 function main() {
-  console.log('reload')
+  console.log('wallparpe reload')
 
   window.GOLOBAL = {
     motto: $('#motto'),
@@ -100,19 +116,21 @@ function main() {
 
     customMottos: [],
     externalMottos: [],
+    cyclicMottos: [],
 
-    visibleMottos: [],
+    defaultImages,
+    externalImages: [],
+    cyclicImages: [],
 
     refresh: refresh,
 
     addCustomMotto(motto, no) {
       motto = motto.trim()
       this.customMottos[no - 1] = motto
-      this.setVisibleMottos()
+      this.setCyclicMottos()
     },
 
     batchImportMottos(mottos) {
-      console.log(mottos)
       try {
         mottos = mottos.map(item => item.trim())
           .filter(item => item != '')
@@ -120,12 +138,16 @@ function main() {
       } catch {
         this.externalMottos = []
       }
-      console.log(this.externalMottos)
-      this.setVisibleMottos()
+      this.setCyclicMottos()
       this.refresh()
     },
 
-    setVisibleMottos() {
+    batchImportImages(paths) {
+      this.externalImages = paths.map(item => `file:///${item}`)
+      this.setCyclicImages()
+    },
+
+    setCyclicMottos() {
       const {
         customMottoEnable,
         usingDefaultMottos,
@@ -144,7 +166,12 @@ function main() {
         mottos = customMottos.concat(externalMottos)
       }
 
-      this.visibleMottos = mottos.filter(item => item != '')
+      this.cyclicMottos = mottos.filter(item => item != '')
+    },
+
+    setCyclicImages() {
+      if (this.externalImages.length) this.cyclicImages = this.externalImages
+      else this.cyclicImages = this.defaultImages
     }
   };
 
@@ -166,7 +193,8 @@ function main() {
     GOLOBAL.bg.style.backgroundImage = 'url(./style/assets/images/bg-end.jpg)';
     targetYearEnd.innerText = GOLOBAL.deadline.targetYear
   } else {
-    GOLOBAL.setVisibleMottos()
+    GOLOBAL.setCyclicMottos()
+    GOLOBAL.setCyclicImages()
     refresh();
   }
 }
@@ -189,7 +217,7 @@ function freshNumbers(_, rightnow = false) {
   var numbers = getTimerNumbers(GOLOBAL.deadline.date);
   rendserNumber(numbers);
   switchMotto(rightnow);
-  switchBg();
+  switchBg(rightnow);
   window.requestAnimationFrame(freshNumbers);
 }
 
@@ -238,7 +266,7 @@ function getTimerNumbers(deadline) {
 };
 
 function switchMotto(rightnow) {
-  mottos = GOLOBAL.visibleMottos
+  mottos = GOLOBAL.cyclicMottos
   if (mottos.length < 1) mottos = ['此时无声胜有声']
 
   var minutes = (new Date()).getMinutes();
@@ -248,11 +276,12 @@ function switchMotto(rightnow) {
   GOLOBAL.switchMottoTime = Math.floor(Math.random() * 60);
 }
 
-function switchBg(debug) {
+function switchBg(rightnow) {
   var minutes = (new Date()).getMinutes();
-  // var minutes = (new Date()).getSeconds();
-  if (debug) {} else if (minutes != GOLOBAL.switchBgTime) return;
-  GOLOBAL.bg.style.backgroundImage = 'url(./style/assets/images/bg-' + Math.floor(Math.random() * 33) + '.jpg)';
+  if (!rightnow && minutes != GOLOBAL.switchBgTime) return;
+  images = GOLOBAL.cyclicImages
+  console.log(images)
+  GOLOBAL.bg.style.backgroundImage = `url(${images[Math.floor(images.length * Math.random())]})`
   GOLOBAL.switchBgTime = Math.floor(Math.random() * 60);
   console.log('switchBgTime', GOLOBAL.switchBgTime)
 }
