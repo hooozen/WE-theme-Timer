@@ -2,7 +2,7 @@ function $(id) {
   return document.querySelector(id)
 }
 
-defaultMottos = [
+const defaultMottos = [
   '不积跬步无以至千里', '北海虽赊，扶摇可接', '欲穷千里目，更上一层楼!', '大鹏一日同风起，扶摇直上九万里',
   '会当凌绝顶，一览众山小', '驽马十驾，功在不舍', '读书不觉已春深，一寸光阴一寸金', '黄沙百战穿金甲，不破楼兰终不还',
   '故天将降大任于是人也，必先苦其心志，劳其筋骨，饿其体肤，空乏其身，行拂乱其所为，所以动心忍性，曾益其所不能',
@@ -15,6 +15,8 @@ defaultMottos = [
   '九万里风鹏正举。风休住，蓬舟吹取三山去！', '乘风破浪会有时，直挂云帆济沧海', '愿乘长风破万里浪',
   '欲渡黄河冰塞川，将登太行雪满山', '自信人生二百年，会当水击三千里', '业精于勤荒于嬉，行成于思毁于随'
 ]
+
+
 
 window.wallpaperPropertyListener = {
   applyUserProperties: function (properties) {
@@ -29,14 +31,53 @@ window.wallpaperPropertyListener = {
         window.GOLOBAL.deadline.date = new Date(properties.deadline.value)
       // Do something with anotherproperty
     }
-    if (properties.addmotto) {
-      if (properties.addmotto.value) {
-        window.GOLOBAL.addMotto(properties.addmotto.value)
+
+    if (properties.customMottoEnable) {
+      GOLOBAL.customMottoEnable = properties.customMottoEnable.value
+      GOLOBAL.setVisibleMottos()
+    }
+    if (properties.usingDefaultMottos) {
+      window.GOLOBAL.usingDefaultMottos = properties.usingDefaultMottos.value
+      GOLOBAL.setVisibleMottos()
+    }
+
+    if (properties.customMotto1) {
+      GOLOBAL.addCustomMotto(properties.customMotto1.value, 1)
+    }
+    if (properties.customMotto2) {
+      GOLOBAL.addCustomMotto(properties.customMotto2.value, 2)
+    }
+    if (properties.customMotto3) {
+      GOLOBAL.addCustomMotto(properties.customMotto3.value, 3)
+    }
+    if (properties.customMotto4) {
+      GOLOBAL.addCustomMotto(properties.customMotto4.value, 4)
+    }
+    if (properties.customMotto5) {
+      GOLOBAL.addCustomMotto(properties.customMotto5.value, 5)
+    }
+
+    if (properties.mottosFile) {
+      var customFile = ''
+
+      if (properties.mottosFile.value) {
+        customFile = 'file:///' + properties.mottosFile.value;
+      } else {
+        customFile = 'script/mottos.js'
       }
+      var scriptEl = document.getElementById('externalMottos');
+      if (scriptEl) {
+        parentEl = scriptEl.parentElement
+        parentEl.removeChild(scriptEl)
+      } else {
+        parentEl = document.body
+      }
+      scriptEl = document.createElement('script')
+      scriptEl.type = 'text/javascript'
+      scriptEl.src = customFile;
+      parentEl.appendChild(scriptEl)
     }
-    if (properties.usingdefaultmottos) {
-      window.GOLOBAL.usingDefaultMottos = properties.usingdefaultmottos.value
-    }
+
     // Add more properties here
     refresh()
   },
@@ -49,20 +90,61 @@ function main() {
     motto: $('#motto'),
     bg: $('#bg'),
     deadline: getDeadline(),
+
     switchMottoTime: (new Date()).getMinutes(),
     switchBgTime: (new Date()).getMinutes(),
+
     defaultMottos,
-    customMottos: [],
+    customMottoEnable: false,
     usingDefaultMottos: true,
+
+    customMottos: [],
+    externalMottos: [],
+
+    visibleMottos: [],
+
     refresh: refresh,
 
-    addMotto(motto) {
+    addCustomMotto(motto, no) {
       motto = motto.trim()
-      index = this.defaultMottos.indexOf(motto)
-      if (index !== -1) return void this.defaultMottos.splice(index, 1)
-      index = this.customMottos.indexOf(motto)
-      if (index !== -1) return void this.customMottos.splice(index, 1)
-      this.customMottos.push(motto)
+      this.customMottos[no - 1] = motto
+      this.setVisibleMottos()
+    },
+
+    batchImportMottos(mottos) {
+      console.log(mottos)
+      try {
+        mottos = mottos.map(item => item.trim())
+          .filter(item => item != '')
+        this.externalMottos = mottos
+      } catch {
+        this.externalMottos = []
+      }
+      console.log(this.externalMottos)
+      this.setVisibleMottos()
+      this.refresh()
+    },
+
+    setVisibleMottos() {
+      const {
+        customMottoEnable,
+        usingDefaultMottos,
+        defaultMottos,
+        externalMottos,
+        customMottos
+      } = this
+
+      let mottos = []
+
+      if (!customMottoEnable) {
+        mottos = defaultMottos
+      } else if (usingDefaultMottos) {
+        mottos = defaultMottos.concat(customMottos).concat(externalMottos)
+      } else {
+        mottos = customMottos.concat(externalMottos)
+      }
+
+      this.visibleMottos = mottos.filter(item => item != '')
     }
   };
 
@@ -84,6 +166,7 @@ function main() {
     GOLOBAL.bg.style.backgroundImage = 'url(./style/assets/images/bg-end.jpg)';
     targetYearEnd.innerText = GOLOBAL.deadline.targetYear
   } else {
+    GOLOBAL.setVisibleMottos()
     refresh();
   }
 }
@@ -155,25 +238,12 @@ function getTimerNumbers(deadline) {
 };
 
 function switchMotto(rightnow) {
-  console.log(GOLOBAL)
-  const {
-    usingDefaultMottos,
-    defaultMottos,
-    customMottos
-  } = GOLOBAL
-  console.log(usingDefaultMottos)
-  let mottos = []
-  if (usingDefaultMottos) {
-    mottos = defaultMottos.concat(customMottos)
-  } else {
-    mottos = customMottos
-  }
-  console.log(mottos)
-  if (mottos.length < 1) return
+  mottos = GOLOBAL.visibleMottos
+  if (mottos.length < 1) mottos = ['此时无声胜有声']
+
   var minutes = (new Date()).getMinutes();
-  // var minutes = (new Date()).getSeconds();
-  console.log(rightnow)
   if (!rightnow && minutes != GOLOBAL.switchMottoTime) return;
+
   GOLOBAL.motto.innerText = mottos[Math.floor(mottos.length * Math.random())];
   GOLOBAL.switchMottoTime = Math.floor(Math.random() * 60);
 }
