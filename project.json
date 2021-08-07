@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "倒计时壁纸\n* 默认为考研倒计时，自动调整年份\n* 支持自定义日期/文字/背景图片（请查看更新说明）\n* 励志古诗词文句，激发力量\n* 精选风景壁纸（来自 bing 和 微软）\n* 计时结束彩蛋\n* 如有问题和建议可加群 811432854 口令：Hozen",
+	"description" : "倒计时壁纸\n* 默认为考研倒计时，自动调整日期\n* 支持自定义：标题/日期/背景/警句（请查看更新说明）\n* 励志古诗词文句，激发力量\n* 精选风景壁纸（来自 bing 和 微软）\n* 计时结束彩蛋\n* 如有问题和建议可加群 811432854 口令：Hozen",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -76,19 +76,6 @@
 				"type" : "directory",
 				"value" : ""
 			},
-			/*
-			"maskTransparency" : 
-			{
-				"fraction" : false,
-				"index" : 2,
-				"max" : 80,
-				"min" : 20,
-				"order" : 102,
-				"text" : "遮罩透明度",
-				"type" : "slider",
-				"value" : 30
-			},
-			*/
 			"mottosFile" : 
 			{
 				"condition" : "customMottoEnable.value == true",
@@ -128,7 +115,7 @@
 	"tags" : [ "Landscape" ],
 	"title" : "倒计时 —— 励志语句（自定义/考研/公考/高考/中考/年末）",
 	"type" : "web",
-	"version" : 6,
+	"version" : 7,
 	"visibility" : "public",
 	"workshopid" : "2222111958",
 	"workshopurl" : "steam://url/CommunityFilePage/2222111958"
