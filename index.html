@@ -10,10 +10,91 @@
 <body>
   <div id="outer">
     <div class="bg" id="bg"></div>
+
     <div class="main">
+      <div class="clock-outer" id="clockOuter">
+        <div class="clock-num" id="clockNum">
+          <div class="clock-num__time">
+            <div id="clockNumH">20</div>:
+            <div id="clockNumM">47</div>:
+            <div id="clockNumS">33</div>
+          </div>
+          <div id="clockNumD"></div>
+        </div>
+        <div class="clock">
+          <div class="clock-center">
+
+            <div class="clock-anchor">
+              <div class="clock-minute-line--long"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(90deg)">
+              <div class="clock-minute-line--long"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(180deg)">
+              <div class="clock-minute-line--long"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(-90deg)">
+              <div class="clock-minute-line--long"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(30deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(60deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(120deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(150deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(-30deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(-60deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(-120deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" style="transform: rotate(-150deg)">
+              <div class="clock-minute-line"></div>
+            </div>
+            <div class="clock-anchor" id="hourHand">
+              <div class="clock-hour-hand"></div>
+            </div>
+
+            <div class="clock-anchor" id="minuteHand">
+              <div class="clock-minute-hand"></div>
+            </div>
+
+            <div class="clock-anchor" id="secondHand">
+              <div class="clock-second-hand"></div>
+            </div>
+            <div class="clock-anchor">
+              <div class="clock-dot hour"></div>
+            </div>
+            <div class="clock-anchor">
+              <div class="clock-dot minute"></div>
+            </div>
+
+            <div class="clock-anchor">
+              <div class="clock-dot hour"></div>
+            </div>
+            <div class="clock-anchor">
+              <div class="clock-dot second"></div>
+            </div>
+            <div class="clock-anchor">
+              <div class="clock-dot center"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
       <div class="title">
         <div class="title__target" id="targetYear">2021</div>
-        <img id="img">
       </div>
       <div class="body--end" id="bodyEnd">
         <div class="message">
@@ -39,7 +120,7 @@
     </div>
   </div>
   <script src="script/main.js" type="text/javascript"></script>
-  <script id="externalMottos"  type="text/javascript"></script>
+  <script id="externalMottos" type="text/javascript"></script>
   <!-- <script src="./sw.js"></script> -->
 </body>
 

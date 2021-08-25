@@ -2,6 +2,8 @@ function $(id) {
   return document.querySelector(id)
 }
 
+const weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
 const defaultMottos = [
   '不积跬步无以至千里', '北海虽赊，扶摇可接', '欲穷千里目，更上一层楼!', '大鹏一日同风起，扶摇直上九万里',
   '会当凌绝顶，一览众山小', '驽马十驾，功在不舍', '读书不觉已春深，一寸光阴一寸金', '黄沙百战穿金甲，不破楼兰终不还',
@@ -48,6 +50,16 @@ window.wallpaperPropertyListener = {
         GOLOBAL.setMaskTransparency(properties.maskTransparency.value)
       }
     }
+
+    if (properties.showClock) {
+      GOLOBAL.showClock = properties.showClock.value
+      GOLOBAL.clockVisible()
+    }
+    if (properties.showNumClock) {
+      GOLOBAL.showNumClock = properties.showNumClock.value
+      GOLOBAL.clockVisible()
+    }
+
 
     if (properties.customMottoEnable) {
       GOLOBAL.customMottoEnable = properties.customMottoEnable.value
@@ -108,12 +120,16 @@ function main() {
     bg: $('#bg'),
     deadline: getDeadline(),
 
+
     switchMottoTime: (new Date()).getMinutes(),
     switchBgTime: (new Date()).getMinutes(),
 
     defaultMottos,
     customMottoEnable: false,
     usingDefaultMottos: true,
+
+    showClock: false,
+    showNumClock: false,
 
     customMottos: [],
     externalMottos: [],
@@ -179,7 +195,9 @@ function main() {
       if (this.externalImages.length) this.cyclicImages = this.externalImages
       else this.cyclicImages = this.defaultImages
       this.refresh(false, true)
-    }
+    },
+
+    clockVisible,
   };
 
   var body = $('#body');
@@ -191,6 +209,16 @@ function main() {
   var milliseconds = $('#milliseconds');
   var targetYear = $('#targetYear');
   var targetYearEnd = $('#targetYearEnd');
+
+  var clockOuter = $('clockOuter')
+  var clockNum = $('clockNum')
+  var secondHand = $('#secondHand')
+  var minuteHand = $('#minuteHand')
+  var hourHand = $('#hourHand')
+  var clockNumH = $('#clockNumH')
+  var clockNumM = $('#clockNumM')
+  var clockNumS = $('#clockNumS')
+  var clockNumD = $('#clockNumD')
 
   targetYear.innerText = GOLOBAL.deadline.targetYear; // 设置年份
   if (GOLOBAL.deadline.expired) {
@@ -220,6 +248,7 @@ function freshNumbers(_, rightnow = {
   rendserNumber(numbers);
   switchMotto(rightnow.motto);
   switchBg(rightnow.bg);
+  clockRun()
   window.requestAnimationFrame(freshNumbers);
 }
 
@@ -285,6 +314,31 @@ function switchBg(rightnow) {
   GOLOBAL.bg.style.backgroundImage = `url(${images[Math.floor(images.length * Math.random())]})`
   GOLOBAL.switchBgTime = Math.floor(Math.random() * 60);
   console.info('switchBgTime', GOLOBAL.switchBgTime)
+}
+
+function clockVisible() {
+  const { showNumClock, showClock } = GOLOBAL
+  if (!showClock) clockOuter.style.display = 'none'
+  else clockOuter.style.display = 'block'
+  if (!showNumClock) clockNum.style.visibility = 'hidden'
+  else clockNum.style.visibility = 'visible'
+}
+
+function clockRun() {
+  const now = new Date()
+  const dataStamp = now.getTime()
+  const s = dataStamp / 1000 % 60
+  const m = dataStamp / 60000 % 60
+  const h = now.getHours() + m / 60
+  secondHand.style.transform = `rotate(${(s * 6 - 90) % 360}deg)`
+  minuteHand.style.transform = `rotate(${(m * 6 - 90) % 360}deg)`
+  hourHand.style.transform = `rotate(${(h * 30 - 90) % 360}deg)`
+  if (!GOLOBAL.showNumClock) return
+  clockNumH.innerText = formatNumber(Math.floor(h), 2)
+  clockNumM.innerText = formatNumber(Math.floor(m), 2)
+  clockNumS.innerText = formatNumber(Math.floor(s), 2)
+  clockNumD.innerText = weekday[now.getDay() - 1]
+
 }
 
 
