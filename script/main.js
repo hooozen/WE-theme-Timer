@@ -2,6 +2,8 @@ function $(id) {
   return document.querySelector(id)
 }
 
+var mainEl = $('#main')
+
 const weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const defaultMottos = [
@@ -42,8 +44,9 @@ window.wallpaperPropertyListener = {
         $('#targetYear').innerText = properties.title.value;
     }
     if (properties.deadline) {
-      if (properties.deadline.value)
-        window.GOLOBAL.deadline.date = new Date(properties.deadline.value)
+      if (properties.deadline.value) {
+        GOLOBAL.deadline.date = new Date(properties.deadline.value)
+      }
     }
     if (properties.maskTransparency) {
       if (properties.maskTransparency.value) {
@@ -70,42 +73,14 @@ window.wallpaperPropertyListener = {
       GOLOBAL.setCyclicMottos()
     }
 
-    if (properties.customMotto1) {
-      GOLOBAL.addCustomMotto(properties.customMotto1.value, 1)
-    }
-    if (properties.customMotto2) {
-      GOLOBAL.addCustomMotto(properties.customMotto2.value, 2)
-    }
-    if (properties.customMotto3) {
-      GOLOBAL.addCustomMotto(properties.customMotto3.value, 3)
-    }
-    if (properties.customMotto4) {
-      GOLOBAL.addCustomMotto(properties.customMotto4.value, 4)
-    }
-    if (properties.customMotto5) {
-      GOLOBAL.addCustomMotto(properties.customMotto5.value, 5)
+    if (properties.customMottos) {
+      GOLOBAL.addCustomMotto(properties.customMottos.value)
     }
 
-    if (properties.mottosFile) {
-      var customFile = ''
-
-      if (properties.mottosFile.value) {
-        customFile = 'file:///' + properties.mottosFile.value;
-      } else {
-        customFile = 'script/mottos.js'
-      }
-      var scriptEl = document.getElementById('externalMottos');
-      if (scriptEl) {
-        parentEl = scriptEl.parentElement
-        parentEl.removeChild(scriptEl)
-      } else {
-        parentEl = document.body
-      }
-      scriptEl = document.createElement('script')
-      scriptEl.type = 'text/javascript'
-      scriptEl.src = customFile;
-      parentEl.appendChild(scriptEl)
+    if (properties.scaleRate) {
+      setScaleRate(properties.scaleRate.value)
     }
+
 
     // refresh()
   },
@@ -132,7 +107,6 @@ function main() {
     showNumClock: false,
 
     customMottos: [],
-    externalMottos: [],
     cyclicMottos: [],
 
     defaultImages,
@@ -145,22 +119,9 @@ function main() {
       console.debug(value)
     },
 
-    addCustomMotto(motto, no) {
-      motto = motto.trim()
-      this.customMottos[no - 1] = motto
+    addCustomMotto(mottos) {
+      this.customMottos = mottos.split('+').map(motto => motto.trim())
       this.setCyclicMottos()
-    },
-
-    batchImportMottos(mottos) {
-      try {
-        mottos = mottos.map(item => item.trim())
-          .filter(item => item != '')
-        this.externalMottos = mottos
-      } catch {
-        this.externalMottos = []
-      }
-      this.setCyclicMottos()
-      this.refresh()
     },
 
     batchImportImages(paths) {
@@ -173,7 +134,6 @@ function main() {
         customMottoEnable,
         usingDefaultMottos,
         defaultMottos,
-        externalMottos,
         customMottos
       } = this
 
@@ -182,9 +142,9 @@ function main() {
       if (!customMottoEnable) {
         mottos = defaultMottos
       } else if (usingDefaultMottos) {
-        mottos = defaultMottos.concat(customMottos).concat(externalMottos)
+        mottos = defaultMottos.concat(customMottos)
       } else {
-        mottos = customMottos.concat(externalMottos)
+        mottos = customMottos
       }
 
       this.cyclicMottos = mottos.filter(item => item != '')
@@ -220,36 +180,44 @@ function main() {
   var clockNumS = $('#clockNumS')
   var clockNumD = $('#clockNumD')
 
-  targetYear.innerText = GOLOBAL.deadline.targetYear; // 设置年份
-  if (GOLOBAL.deadline.expired) {
+  targetYear.innerText = GOLOBAL.deadline.targetYear + ' 一“研”为定！';
+
+  GOLOBAL.setCyclicMottos()
+  GOLOBAL.setCyclicImages()
+}
+
+function endEgg() {
+  if (new Date() > window.GOLOBAL.deadline.date) {
     body.style.display = 'none';
     bodyEnd.style.display = 'block';
     GOLOBAL.bg.style.backgroundImage = 'url(./style/assets/images/bg-end.jpg)';
     targetYearEnd.innerText = GOLOBAL.deadline.targetYear
-  } else {
-    GOLOBAL.setCyclicMottos()
-    GOLOBAL.setCyclicImages()
-    refresh();
+    return true
   }
+  body.style.display = 'block';
+  bodyEnd.style.display = 'none';
+  return false
 }
 
 function refresh(motto = false, bg = false) {
-  window.requestAnimationFrame(freshNumbers.bind(window, undefined, {
+  window.requestAnimationFrame(animation.bind(window, undefined, {
     motto,
     bg
   }));
 }
 
-function freshNumbers(_, rightnow = {
+function animation(_, rightnow = {
   motto: false,
   bg: false
 }) {
   var numbers = getTimerNumbers(GOLOBAL.deadline.date);
-  rendserNumber(numbers);
-  switchMotto(rightnow.motto);
-  switchBg(rightnow.bg);
+  if (!endEgg()) {
+    rendserNumber(numbers);
+    switchMotto(rightnow.motto);
+    switchBg(rightnow.bg);
+  }
   clockRun()
-  window.requestAnimationFrame(freshNumbers);
+  window.requestAnimationFrame(animation);
 }
 
 function rendserNumber(numbers) {
@@ -316,11 +284,13 @@ function switchBg(rightnow) {
   console.info('switchBgTime', GOLOBAL.switchBgTime)
 }
 
-function clockVisible() {
+function clockVisible(_showClock, _showNumClock) {
   const { showNumClock, showClock } = GOLOBAL
-  if (!showClock) clockOuter.style.display = 'none'
+  _showClock = _showClock || showClock
+  _showNumClock = _showNumClock || showNumClock
+  if (!_showClock) clockOuter.style.display = 'none'
   else clockOuter.style.display = 'block'
-  if (!showNumClock) clockNum.style.visibility = 'hidden'
+  if (!_showNumClock) clockNum.style.visibility = 'hidden'
   else clockNum.style.visibility = 'visible'
 }
 
@@ -341,5 +311,10 @@ function clockRun() {
 
 }
 
+function setScaleRate(rate) {
+  // console.log(mainEl, 'xxxx')
+  console.log(`scale(${rate / 100})`)
+  mainEl.style.transform = `scale(${rate / 100})`
+}
 
 window.onload = main();
