@@ -108,7 +108,6 @@ body {
 }
 
 .number.days {
-  flex: 0 0 110px;
   font-size: 60px;
 }
 

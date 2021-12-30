@@ -81,6 +81,10 @@ window.wallpaperPropertyListener = {
       setScaleRate(properties.scaleRate.value)
     }
 
+    if (properties.precision) {
+      setPrecision(properties.precision.value)
+    }
+
 
     // refresh()
   },
@@ -167,6 +171,10 @@ function main() {
   var minutes = $('#minutes');
   var seconds = $('#secnds');
   var milliseconds = $('#milliseconds');
+  var daySep = $('#daySep')
+  var hourSep = $('#hourSep')
+  var minSep = $('#minSep')
+  var secSep = $('#secSep')
   var targetYear = $('#targetYear');
   var targetYearEnd = $('#targetYearEnd');
 
@@ -315,6 +323,18 @@ function setScaleRate(rate) {
   // console.log(mainEl, 'xxxx')
   console.log(`scale(${rate / 100})`)
   mainEl.style.transform = `scale(${rate / 100})`
+}
+
+function setPrecision(precision) {
+  console.log(precision)
+  precision *= 2
+  const Els = [hours, hourSep, minutes, minSep, seconds, secSep, milliseconds]
+  Els.forEach((el, i) => {
+    if (i >= precision)
+      el.style.display = 'none'
+    else
+      el.style.display = 'block'
+  })
 }
 
 window.onload = main();
