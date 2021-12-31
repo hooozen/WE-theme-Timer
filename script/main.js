@@ -120,7 +120,9 @@ function main() {
     refresh: refresh,
 
     setMaskTransparency(value) {
-      console.debug(value)
+      text = `.bg::after {background:rgba(0,0,0,${value / 100})}`
+      console.log(text)
+      maskStyleEl.innerText = text
     },
 
     addCustomMotto(mottos) {
@@ -163,6 +165,8 @@ function main() {
 
     clockVisible,
   };
+
+  var maskStyleEl = $('#maskStyle')
 
   var body = $('#body');
   var bodyEnd = $('#bodyEnd');

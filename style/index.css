@@ -109,6 +109,7 @@ body {
 
 .number.days {
   font-size: 60px;
+  padding: 0 10px;
 }
 
 .number.hours {
