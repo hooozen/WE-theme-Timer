@@ -6,7 +6,5 @@
   "repository": "https://github.com/hooozen/WE-theme-Timer.git",
   "author": "Hozen <Hozen@live.com>",
   "license": "MIT",
-  "devDependencies": {
-    "@tsconfig/recommended": "^1.0.1"
-  }
+  "devDependencies": {}
 }
