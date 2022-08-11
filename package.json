@@ -1,0 +1,12 @@
+{
+  "name": "WE-theme-Timer",
+  "version": "2.0.0",
+  "description": "A wallpaper of Wallpaper Engine",
+  "main": "index.js",
+  "repository": "https://github.com/hooozen/WE-theme-Timer.git",
+  "author": "Hozen <Hozen@live.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1"
+  }
+}

@@ -2,6 +2,8 @@ function $(id) {
   return document.querySelector(id)
 }
 
+const basic = new Basic()
+
 var mainEl = $('#main')
 
 const weekday = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
@@ -30,12 +32,12 @@ window.wallpaperPropertyListener = {
   userDirectoryFilesAddedOrChanged: function (propertyName, changedFiles) {
     // propertyName is the name of the property that triggered the event.
     // changedFiles contains all added (or modified) file paths
-    GOLOBAL.batchImportImages(changedFiles)
+    basic.setCustomImages(changedFiles)
   },
   userDirectoryFilesRemoved: function (propertyName, removedFiles) {
     // propertyName is the name of the property that triggered the event.
     // removedFiles contains all removed file paths
-    GOLOBAL.batchImportImages([])
+    basic.setCustomImages([])
   },
 
   applyUserProperties: function (properties) {
@@ -65,16 +67,14 @@ window.wallpaperPropertyListener = {
 
 
     if (properties.customMottoEnable) {
-      GOLOBAL.customMottoEnable = properties.customMottoEnable.value
-      GOLOBAL.setCyclicMottos()
+      basic.setCustomMottoEnable(properties.customMottoEnable.value)
     }
     if (properties.usingDefaultMottos) {
-      window.GOLOBAL.usingDefaultMottos = properties.usingDefaultMottos.value
-      GOLOBAL.setCyclicMottos()
+      basic.setUsingDefaultMottos(properties.usingDefaultMottos.value)
     }
 
     if (properties.customMottos) {
-      GOLOBAL.addCustomMotto(properties.customMottos.value)
+      basic.setCustomMottos(properties.customMottos.value)
     }
 
     if (properties.scaleRate) {
