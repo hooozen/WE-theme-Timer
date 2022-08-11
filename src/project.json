@@ -117,23 +117,23 @@
         "options": [
           {
             "label": "天",
-            "value": 0
-          },
-          {
-            "label": "时",
             "value": 1
           },
           {
-            "label": "分",
+            "label": "时",
             "value": 2
           },
           {
-            "label": "秒",
+            "label": "分",
             "value": 3
           },
           {
-            "label": "毫秒",
+            "label": "秒",
             "value": 4
+          },
+          {
+            "label": "毫秒",
+            "value": 5
           }
         ],
         "order": 102,

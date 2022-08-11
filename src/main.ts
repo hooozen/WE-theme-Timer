@@ -1,11 +1,14 @@
 import Mottos from "./script/Mottos.js"
+import Timer from "./script/Timer.js"
 import Images from "./script/Images.js"
+import Title from "./script/Title.js"
 
 function $(id: string): HTMLElement {
   return document.querySelector(id) as HTMLElement
 }
 
-
+const title = new Title($('#title'))
+const timer = new Timer($('#timer'))
 const mottos = new Mottos($('#motto'))
 const images = new Images($('#bg'), $('#maskStyle'))
 
@@ -28,6 +31,19 @@ window.wallpaperPropertyListener = {
   },
 
   applyUserProperties: function (properties: any) {
+    if (properties.title) {
+      title.setText(properties.title.value)
+    }
+
+    if (properties.deadline) {
+      if (properties.deadline.value) {
+        timer.setDeadline(properties.deadline.value)
+      }
+    }
+    if (properties.precision) {
+      timer.setPrecision(properties.precision.value)
+    }
+
 
     if (properties.imageSwitchFrequency) {
       images.setImageSwitchFrequency(properties.imageSwitchFrequency.value)
@@ -37,7 +53,6 @@ window.wallpaperPropertyListener = {
         images.setMaskTransparency(properties.maskTransparency.value)
       }
     }
-
 
     if (properties.customMottoEnable) {
       mottos.setCustomMottoEnable(properties.customMottoEnable.value)

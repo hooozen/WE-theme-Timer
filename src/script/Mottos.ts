@@ -65,14 +65,17 @@ export default class Mottos {
 
   setCustomMottoEnable(value: boolean) {
     this.customMottoEnable = value
+    this.render(true)
   }
 
   setUsingDefaultMottos(value: boolean) {
     this.usingDefaultMottos = value
+    this.render(true)
   }
 
   setCustomMottos(value: string) {
     this.customMottos = value.split('+')
+    this.render(true)
   }
 
   setMottoSwitchFrequency(value: number) {
@@ -90,6 +93,6 @@ export default class Mottos {
       this.mottoSwitchedTime = now;
     }
 
-    window.requestAnimationFrame(this.render.bind(this, rightnow))
+    window.requestAnimationFrame(this.render.bind(this, false))
   }
 }

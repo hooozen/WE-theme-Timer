@@ -25,9 +25,9 @@ export default class Images {
     }, (item, index) => `style/assets/images/bg-${index}.jpg`)
   }
 
-
   setCustomImages(value: string[]) {
-    this.customImages = value
+    this.customImages = value.map(s => 'file:///' + s)
+    this.render(true)
   }
 
   get cyclicImages(): string[] {
@@ -56,6 +56,6 @@ export default class Images {
       this.imageSwitchedTime = now
     }
 
-    window.requestAnimationFrame(this.render.bind(this, rightnow))
+    window.requestAnimationFrame(this.render.bind(this, false))
   }
 }
