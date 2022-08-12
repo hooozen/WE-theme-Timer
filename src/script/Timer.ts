@@ -23,6 +23,7 @@ export default class Timer {
   }
 
   setDeadline(value: string) {
+    value = value + '2030-01-01 00:00:00'.substring(value.length)
     this.deadline = new Date(value)
   }
 

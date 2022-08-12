@@ -33,7 +33,9 @@ window.wallpaperPropertyListener = {
 
   applyUserProperties: function (properties: any) {
     if (properties.title) {
-      title.setText(properties.title.value)
+      if (properties.title.value) {
+        title.setText(properties.title.value)
+      }
     }
 
     if (properties.deadline) {
