@@ -1,4 +1,6 @@
 
+import { formatNumber } from '../utils.js'
+
 export default class Timer {
   outEl: HTMLElement
   deadline: Date
@@ -18,12 +20,6 @@ export default class Timer {
     const roughDate = new Date(y, m, 20);
     const d = roughDate.getDay();
     return d === 6 ? roughDate : new Date(y, m, 20 + 6 - d)
-  }
-
-  _formatNumber(number: number, length: number = 2): string {
-    const _number = '' + number;
-    if (_number.length >= length) return _number.substring(0, length);
-    return '0000000000'.substring(0, length - _number.length) + _number;
   }
 
   setDeadline(value: string) {
@@ -57,7 +53,7 @@ export default class Timer {
     const children = this.outEl.children
     children[0].innerHTML = numbers[0] as unknown as string
     for (let i = 2; i < children.length; i += 2) {
-      children[i].innerHTML = this._formatNumber(numbers[i / 2])
+      children[i].innerHTML = formatNumber(numbers[i / 2])
     }
     window.requestAnimationFrame(this.render.bind(this))
   }

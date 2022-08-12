@@ -2,15 +2,16 @@ import Mottos from "./script/Mottos.js"
 import Timer from "./script/Timer.js"
 import Images from "./script/Images.js"
 import Title from "./script/Title.js"
+import Clock from "./script/Clock.js"
 
-function $(id: string): HTMLElement {
-  return document.querySelector(id) as HTMLElement
-}
+import { $ } from "./utils.js"
 
-const title = new Title($('#title'))
-const timer = new Timer($('#timer'))
-const mottos = new Mottos($('#motto'))
-const images = new Images($('#bg'), $('#maskStyle'))
+
+const title = new Title($('#title') as HTMLElement)
+const timer = new Timer($('#timer') as HTMLElement)
+const mottos = new Mottos($('#motto') as HTMLElement)
+const images = new Images($('#bg') as HTMLEmbedElement, $('#maskStyle') as HTMLElement)
+const clock = new Clock($('#clockOuter') as HTMLElement)
 
 declare global {
   interface Window {
@@ -65,6 +66,13 @@ window.wallpaperPropertyListener = {
     }
     if (properties.mottoSwitchFrequency) {
       mottos.setMottoSwitchFrequency(properties.mottoSwitchFrequency.value)
+    }
+
+    if (properties.showClock) {
+      clock.setClockVisible(properties.showClock.value)
+    }
+    if (properties.showNumClock) {
+      clock.setNumVisible(properties.showNumClock.value)
     }
     // refresh()
   },
