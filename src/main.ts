@@ -1,3 +1,4 @@
+import Box from './script/Box.js'
 import Mottos from "./script/Mottos.js"
 import Timer from "./script/Timer.js"
 import Images from "./script/Images.js"
@@ -6,11 +7,11 @@ import Clock from "./script/Clock.js"
 
 import { $ } from "./utils.js"
 
-
+const box = new Box($('#outer') as HTMLElement, $('#maskStyle') as HTMLElement)
 const title = new Title($('#title') as HTMLElement)
 const timer = new Timer($('#timer') as HTMLElement)
 const mottos = new Mottos($('#motto') as HTMLElement)
-const images = new Images($('#bg') as HTMLEmbedElement, $('#maskStyle') as HTMLElement)
+const images = new Images($('#bg') as HTMLEmbedElement)
 const clock = new Clock($('#clockOuter') as HTMLElement)
 
 declare global {
@@ -51,11 +52,6 @@ window.wallpaperPropertyListener = {
     if (properties.imageSwitchFrequency) {
       images.setImageSwitchFrequency(properties.imageSwitchFrequency.value)
     }
-    if (properties.maskTransparency) {
-      if (properties.maskTransparency.value) {
-        images.setMaskTransparency(properties.maskTransparency.value)
-      }
-    }
 
     if (properties.customMottoEnable) {
       mottos.setCustomMottoEnable(properties.customMottoEnable.value)
@@ -76,6 +72,18 @@ window.wallpaperPropertyListener = {
     if (properties.showNumClock) {
       clock.setNumVisible(properties.showNumClock.value)
     }
+
+    if (properties.translateY) {
+      box.setTranslateY(properties.translateY.value)
+    }
+    if (properties.maskTransparency) {
+      box.setMaskTransparency(properties.maskTransparency.value)
+    }
+    if (properties.scaleRate) {
+      box.setScale(properties.scaleRate.value)
+    }
+
+
     // refresh()
   },
 

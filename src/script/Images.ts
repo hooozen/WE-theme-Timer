@@ -5,11 +5,9 @@ export default class Images {
   showedImageIdx: number
   imageSwitchFrequency: number
   el: HTMLElement
-  maskEl: HTMLElement
 
-  constructor(el: HTMLElement, maskEl: HTMLElement) {
+  constructor(el: HTMLElement) {
     this.el = el
-    this.maskEl = maskEl
     this.showedImageIdx = 0
     this.imageSwitchFrequency = 60 * 60 * 1000
     this.imageSwitchedTime = Date.now()
@@ -35,10 +33,7 @@ export default class Images {
     // this.refresh(false, true)
   }
 
-  setMaskTransparency(value: number) {
-    const text = `.bg::after {background:rgba(0,0,0,${value / 100})}`
-    this.maskEl.innerText = text
-  }
+
 
   setImageSwitchFrequency(value: number) {
     this.imageSwitchFrequency = value * 1000

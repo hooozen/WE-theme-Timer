@@ -4,18 +4,10 @@
   "file": "index.html",
   "general": {
     "properties": {
-      "customMottoEnable": {
-        "index": 4,
-        "order": 104,
-        "text": "自定义警句",
-        "type": "bool",
-        "value": false
-      },
-      "customMottos": {
-        "condition": "customMottoEnable.value == true",
-        "index": 6,
-        "order": 106,
-        "text": "自定义警句(使用+分隔)",
+      "title": {
+        "index": 0,
+        "order": 100,
+        "text": "标题",
         "type": "textinput",
         "value": ""
       },
@@ -26,61 +18,8 @@
         "type": "textinput",
         "value": ""
       },
-      "externalImages": {
-        "index": 3,
-        "mode": "fetchall",
-        "order": 103,
-        "text": "自定义背景",
-        "type": "directory",
-        "value": ""
-      },
-      "imageSwitchFrequency": {
-        "index": 11,
-        "options": [
-          {
-            "label": "5 秒",
-            "value": "5"
-          },
-          {
-            "label": "1 分钟",
-            "value": "60"
-          },
-          {
-            "label": "10 分钟",
-            "value": "600"
-          },
-          {
-            "label": "30 分钟",
-            "value": "1800"
-          },
-          {
-            "label": "1 小时",
-            "value": "3600"
-          },
-          {
-            "label": "6 小时",
-            "value": "21600"
-          }
-        ],
-        "order": 111,
-        "text": "图片切换频率",
-        "type": "combo",
-        "value": "3600"
-      },
-      "maskTransparency": {
-        "fraction": true,
-        "index": 10,
-        "max": 100,
-        "min": 0,
-        "order": 110,
-        "precision": 1,
-        "step": 1,
-        "text": "遮罩透明度%",
-        "type": "slider",
-        "value": 30
-      },
       "mottoSwitchFrequency": {
-        "index": 12,
+        "index": 2,
         "options": [
           {
             "label": "5 秒",
@@ -107,13 +46,46 @@
             "value": "21600"
           }
         ],
-        "order": 112,
+        "order": 102,
         "text": "格言切换频率",
         "type": "combo",
         "value": "3600"
       },
+      "imageSwitchFrequency": {
+        "index": 3,
+        "options": [
+          {
+            "label": "5 秒",
+            "value": "5"
+          },
+          {
+            "label": "1 分钟",
+            "value": "60"
+          },
+          {
+            "label": "10 分钟",
+            "value": "600"
+          },
+          {
+            "label": "30 分钟",
+            "value": "1800"
+          },
+          {
+            "label": "1 小时",
+            "value": "3600"
+          },
+          {
+            "label": "6 小时",
+            "value": "21600"
+          }
+        ],
+        "order": 103,
+        "text": "图片切换频率",
+        "type": "combo",
+        "value": "3600"
+      },
       "precision": {
-        "index": 2,
+        "index": 4,
         "options": [
           {
             "label": "天",
@@ -136,52 +108,92 @@
             "value": 5
           }
         ],
-        "order": 102,
+        "order": 104,
         "text": "计时精确度",
         "type": "combo",
         "value": 4
       },
-      "scaleRate": {
-        "fraction": true,
-        "index": 9,
-        "max": 200,
-        "min": 75,
-        "order": 109,
-        "precision": 1,
-        "step": 1,
-        "text": "缩放%",
-        "type": "slider",
-        "value": 100
-      },
       "showClock": {
-        "index": 7,
-        "order": 107,
+        "index": 5,
+        "order": 105,
         "text": "显示时钟",
         "type": "bool",
         "value": false
       },
       "showNumClock": {
         "condition": "showClock.value == true",
-        "index": 8,
-        "order": 108,
+        "index": 6,
+        "order": 106,
         "text": "显示数字时钟",
         "type": "bool",
         "value": true
       },
-      "title": {
-        "index": 0,
-        "order": 100,
-        "text": "标题",
-        "type": "textinput",
-        "value": ""
+      "customMottoEnable": {
+        "index": 7,
+        "order": 107,
+        "text": "自定义警句",
+        "type": "bool",
+        "value": false
       },
       "usingDefaultMottos": {
         "condition": "customMottoEnable.value == true",
-        "index": 5,
-        "order": 105,
+        "index": 8,
+        "order": 108,
         "text": "使用默认警句",
         "type": "bool",
         "value": true
+      },
+      "customMottos": {
+        "condition": "customMottoEnable.value == true",
+        "index": 9,
+        "order": 109,
+        "text": "自定义警句(使用+分隔)",
+        "type": "textinput",
+        "value": ""
+      },
+      "externalImages": {
+        "index": 10,
+        "mode": "fetchall",
+        "order": 110,
+        "text": "自定义背景",
+        "type": "directory",
+        "value": ""
+      },
+      "maskTransparency": {
+        "fraction": true,
+        "index": 11,
+        "max": 100,
+        "min": 0,
+        "order": 111,
+        "precision": 1,
+        "step": 1,
+        "text": "遮罩透明度%",
+        "type": "slider",
+        "value": 30
+      },
+      "scaleRate": {
+        "fraction": true,
+        "index": 12,
+        "max": 200,
+        "min": 75,
+        "order": 112,
+        "precision": 1,
+        "step": 1,
+        "text": "缩放%",
+        "type": "slider",
+        "value": 100
+      },
+      "translateY": {
+        "fraction": true,
+        "index": 13,
+        "max": 200,
+        "min": -200,
+        "order": 113,
+        "precision": 1,
+        "step": 1,
+        "text": "位置调整",
+        "type": "slider",
+        "value": 0
       }
     }
   },

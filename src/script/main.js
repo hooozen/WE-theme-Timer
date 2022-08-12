@@ -121,7 +121,6 @@ function main() {
 
     setMaskTransparency(value) {
       text = `.bg::after {background:rgba(0,0,0,${value / 100})}`
-      console.log(text)
       maskStyleEl.innerText = text
     },
 
@@ -324,13 +323,10 @@ function clockRun() {
 }
 
 function setScaleRate(rate) {
-  // console.log(mainEl, 'xxxx')
-  console.log(`scale(${rate / 100})`)
   mainEl.style.transform = `scale(${rate / 100})`
 }
 
 function setPrecision(precision) {
-  console.log(precision)
   precision *= 2
   const Els = [hours, hourSep, minutes, minSep, seconds, secSep, milliseconds]
   Els.forEach((el, i) => {
