@@ -33,12 +33,13 @@ export default class Images {
     // this.refresh(false, true)
   }
 
-
-
   setImageSwitchFrequency(value: number) {
     this.imageSwitchFrequency = value * 1000
   }
 
+  setImageSwitchOrder(value: boolean) {
+    this.randomSwitchImage = value
+  }
 
   render(rightnow: boolean = false, timestamp?: number) {
     const images = this.cyclicImages

@@ -52,6 +52,10 @@ window.wallpaperPropertyListener = {
     if (properties.imageSwitchFrequency) {
       images.setImageSwitchFrequency(properties.imageSwitchFrequency.value)
     }
+    if (properties.imageSwitchOrder) {
+      images.setImageSwitchOrder(properties.imageSwitchOrder.value)
+    }
+
 
     if (properties.customMottoEnable) {
       mottos.setCustomMottoEnable(properties.customMottoEnable.value)
@@ -64,6 +68,9 @@ window.wallpaperPropertyListener = {
     }
     if (properties.mottoSwitchFrequency) {
       mottos.setMottoSwitchFrequency(properties.mottoSwitchFrequency.value)
+    }
+    if (properties.mottoSwitchOrder) {
+      mottos.setMottoSwitchOrder(properties.mottoSwitchOrder.value)
     }
 
     if (properties.showClock) {

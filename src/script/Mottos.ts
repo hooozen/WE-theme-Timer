@@ -82,6 +82,11 @@ export default class Mottos {
     this.mottoSwitchFrequency = value * 1000
   }
 
+  setMottoSwitchOrder(value: boolean) {
+    console.log(value)
+    this.randomSwitchMotto = value
+  }
+
   render(rightnow: boolean = false, timestamp?: number) {
     let mottos = this.cyclicMottos
     const now = Date.now();
