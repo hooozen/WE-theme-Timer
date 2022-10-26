@@ -18,18 +18,20 @@ declare global {
   interface Window {
     wallpaperPropertyListener: any
   }
+
+  type DirNames = 'commonImgDir' | 'lightImgDir' | 'darkImgDir'
 }
 
 window.wallpaperPropertyListener = {
   userDirectoryFilesAddedOrChanged: function (propertyName: string, changedFiles: string[]) {
     // propertyName is the name of the property that triggered the event.
     // changedFiles contains all added (or modified) file paths
-    images.setCustomImages(changedFiles)
+    images.setCustomImages(propertyName as DirNames, changedFiles)
   },
   userDirectoryFilesRemoved: function (propertyName: string, removedFiles: string[]) {
     // propertyName is the name of the property that triggered the event.
     // removedFiles contains all removed file paths
-    images.setCustomImages([])
+    images.setCustomImages(propertyName as DirNames, [])
   },
 
   applyUserProperties: function (properties: any) {
@@ -89,6 +91,18 @@ window.wallpaperPropertyListener = {
     if (properties.scaleRate) {
       box.setScale(properties.scaleRate.value)
     }
+
+    if (properties.sunriseTime) {
+      images.setModeSwitchTime(0, properties.sunriseTime.value)
+    }
+    if (properties.sunsetTime) {
+      images.setModeSwitchTime(1, properties.sunsetTime.value)
+    }
+    if (properties.modeEnable) {
+      images.setModeEnable(properties.modeEnable.value)
+    }
+
+
 
 
     // refresh()

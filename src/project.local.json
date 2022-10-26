@@ -4,6 +4,15 @@
 	"file": "index.html",
 	"general": {
 		"properties": {
+			"commonImgDir": {
+				"condition": "modeEnable.value != true",
+				"index": 12,
+				"mode": "fetchall",
+				"order": 112,
+				"text": "自定义背景",
+				"type": "directory",
+				"value": ""
+			},
 			"customMottoEnable": {
 				"index": 9,
 				"order": 109,
@@ -19,6 +28,15 @@
 				"type": "textinput",
 				"value": ""
 			},
+			"darkImgDir": {
+				"condition": "modeEnable.value == true",
+				"index": 17,
+				"mode": "fetchall",
+				"order": 117,
+				"text": "深色主题背景",
+				"type": "directory",
+				"value": ""
+			},
 			"deadline": {
 				"index": 1,
 				"order": 101,
@@ -26,21 +44,9 @@
 				"type": "textinput",
 				"value": ""
 			},
-			"externalImages": {
-				"index": 12,
-				"mode": "fetchall",
-				"order": 112,
-				"text": "自定义背景",
-				"type": "directory",
-				"value": ""
-			},
 			"imageSwitchFrequency": {
 				"index": 4,
 				"options": [
-					{
-						"label": "5 秒",
-						"value": "5"
-					},
 					{
 						"label": "1 分钟",
 						"value": "60"
@@ -74,25 +80,37 @@
 				"type": "bool",
 				"value": true
 			},
+			"lightImgDir": {
+				"condition": "modeEnable.value == true",
+				"index": 15,
+				"mode": "fetchall",
+				"order": 115,
+				"text": "明亮主题背景",
+				"type": "directory",
+				"value": ""
+			},
 			"maskTransparency": {
 				"fraction": true,
-				"index": 13,
+				"index": 18,
 				"max": 100,
 				"min": 0,
-				"order": 113,
+				"order": 118,
 				"precision": 1,
 				"step": 1,
 				"text": "遮罩透明度%",
 				"type": "slider",
 				"value": 30
 			},
+			"modeEnable": {
+				"index": 13,
+				"order": 113,
+				"text": "昼夜主题",
+				"type": "bool",
+				"value": false
+			},
 			"mottoSwitchFrequency": {
 				"index": 3,
 				"options": [
-					{
-						"label": "5 秒",
-						"value": "5"
-					},
 					{
 						"label": "1 分钟",
 						"value": "60"
@@ -157,10 +175,10 @@
 			},
 			"scaleRate": {
 				"fraction": true,
-				"index": 14,
+				"index": 19,
 				"max": 200,
 				"min": 75,
-				"order": 114,
+				"order": 119,
 				"precision": 1,
 				"step": 1,
 				"text": "缩放%",
@@ -188,6 +206,22 @@
 				"type": "bool",
 				"value": true
 			},
+			"sunriseTime": {
+				"condition": "modeEnable.value == true",
+				"index": 14,
+				"order": 114,
+				"text": "日出时间",
+				"type": "textinput",
+				"value": "6:00"
+			},
+			"sunsetTime": {
+				"condition": "modeEnable.value == true",
+				"index": 16,
+				"order": 116,
+				"text": "日落时间",
+				"type": "textinput",
+				"value": "19:00"
+			},
 			"title": {
 				"index": 0,
 				"order": 100,
@@ -197,10 +231,10 @@
 			},
 			"translateY": {
 				"fraction": true,
-				"index": 15,
+				"index": 20,
 				"max": 200,
 				"min": -200,
-				"order": 115,
+				"order": 120,
 				"precision": 1,
 				"step": 1,
 				"text": "位置调整",
@@ -223,7 +257,7 @@
 	],
 	"title": "倒计时 —— 励志语句（自定义/考研/公考/高考/中考/年末）",
 	"type": "web",
-	"version": 11,
+	"version": 12,
 	"visibility": "public",
 	"workshopid": "2222111958",
 	"workshopurl": "steam://url/CommunityFilePage/2222111958"
